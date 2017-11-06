@@ -14,7 +14,6 @@
         <param name="username">root</param>
         <param name="password">1qaz@WSX3edc$RFV</param>
     </jdbc>-->
-
     <table>
         <mapping tableName="zxxs_jbxx" modelName="Student"/>
         <mapping tableName="zxxs_knxsqk" modelName="StudentKnxsqk"/>
