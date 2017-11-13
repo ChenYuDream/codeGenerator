@@ -25,6 +25,7 @@ public class ${model.clazzName}ServiceImpl implements ${model.clazzName}Service 
     * @param ${model.clazzName?uncap_first}
     * @return 保存后的对象包括ID
     */
+    @Override
     public int save${model.clazzName}(${model.clazzName} ${model.clazzName?uncap_first}){
         if(${model.clazzName?uncap_first}.getId()==null||${model.clazzName?uncap_first}.getId()==""){
             String uuid =UUID.randomUUID().toString().replace("-", "").trim();
@@ -38,6 +39,7 @@ public class ${model.clazzName}ServiceImpl implements ${model.clazzName}Service 
     * @param id 主键ID
     * @return 删除记录数
     */
+    @Override
     public int delete${model.clazzName}ById(String id){
 
         return ${dao.clazzName?uncap_first}.delete${model.clazzName}ById(id);
@@ -49,6 +51,7 @@ public class ${model.clazzName}ServiceImpl implements ${model.clazzName}Service 
     * @param ${model.clazzName?uncap_first}
     * @return 保存后的对象包括ID
     */
+    @Override
     public int update${model.clazzName}(${model.clazzName} ${model.clazzName?uncap_first}){
 
         return ${dao.clazzName?uncap_first}.update${model.clazzName}(${model.clazzName?uncap_first});
@@ -59,6 +62,7 @@ public class ${model.clazzName}ServiceImpl implements ${model.clazzName}Service 
     * @parm id 主键ID
     * @return ${model.clazzName}
     */
+    @Override
     public ${model.clazzName} select${model.clazzName}ById(String id){
 
         return ${dao.clazzName?uncap_first}.select${model.clazzName}ById(id);
@@ -69,6 +73,7 @@ public class ${model.clazzName}ServiceImpl implements ${model.clazzName}Service 
     * @param map  查询条件
     * @return  List<${model.clazzName}>
     */
+    @Override
     public List<${model.clazzName}> selectAllByMap(Map<String,Object> map){
         return ${dao.clazzName?uncap_first}.selectAllByMap(map);
     }
@@ -79,6 +84,7 @@ public class ${model.clazzName}ServiceImpl implements ${model.clazzName}Service 
     * @param ${model.clazzName?uncap_first}  查询条件
     * @return  List<${model.clazzName}>
     */
+    @Override
     public List<${model.clazzName}> selectAllBy${model.clazzName}(${model.clazzName} ${model.clazzName?uncap_first}){
 
         return ${dao.clazzName?uncap_first}.selectAllBy${model.clazzName}(${model.clazzName?uncap_first});
