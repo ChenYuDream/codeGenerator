@@ -96,7 +96,7 @@ public class InitDb {
         } else if ("mysql".equals(config.getJdbcType())) {
             sql.append("SELECT table_name,table_comment FROM TABLES WHERE 1=1");
             sql.append(" and table_schema = '" + config.getDataBaseName() + "'");
-            sql.append(" and table_name IN(" + config.getTable().getTableNames().toUpperCase() + ")");
+            sql.append(" and table_name IN(" + config.getTable().getTableNames().toLowerCase() + ")");
         } else {
             throw new RuntimeException("数据库类型错误");
 
@@ -146,7 +146,7 @@ public class InitDb {
             sb.append("SELECT table_name,column_name,data_type,column_comment,column_key FROM COLUMNS WHERE 1=1");
             if (StringUtil.isNotEmpty(config.getTable().getTableNames())) {
                 sb.append(" and table_schema = '" + config.getDataBaseName() + "'");
-                sb.append(" and table_name in (" + config.getTable().getTableNames().toUpperCase() + ")");
+                sb.append(" and table_name in (" + config.getTable().getTableNames().toLowerCase() + ")");
             }
             sb.append(" ORDER BY ordinal_position");
         }
