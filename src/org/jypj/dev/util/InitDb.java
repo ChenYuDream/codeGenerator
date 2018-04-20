@@ -223,7 +223,7 @@ public class InitDb {
                      * ------------ORACLE 对应的
                      */
                     case "TIMESTAMP(6)":
-                        type = "Date";
+                        type = "LocalDateTime";
                         break;
                     case "NUMBER":
                         type = "BigDecimal";
@@ -235,29 +235,29 @@ public class InitDb {
                         type = "Time";
                         break;
                     case "TIMESTAMP":
-                        type = "Date";
+                        type = "LocalDateTime";
                         break;
                     case "DATETIME":
-                        type = "Date";
+                        type = "LocalDateTime";
                         break;
                     /**
                      * ------------通用的
                      */
                     case "DATE":
-                        type = "Date";
+                        type = "LocalDateTime";
                         break;
                     case "INTEGER":
-                        type = "INTEGER";
+                        type = "Integer";
                         break;
                     case "INT":
-                        type = "INTEGER";
+                        type = "Integer";
                         break;
                     default:
                         type = "String";
                         break;
                 }
                 String field = "";
-                String[] split = db.getColumnName().toLowerCase().split("_");
+                String[] split = db.getColumnName().split("_");
                 for (int i = 0; i < split.length; i++) {
                     if (i == 0) {
                         field += split[i];
@@ -273,7 +273,7 @@ public class InitDb {
                 attr.setJdbcField(db.getColumnName());
                 String jdbcType = "";
                 switch (type) {
-                    case "INTEGER":
+                    case "Integer":
                         jdbcType = "INTEGER";
                         break;
                     case "Time":
@@ -288,8 +288,8 @@ public class InitDb {
                     case "BigDecimal":
                         jdbcType = "DECIMAL";
                         break;
-                    case "Date":
-                        jdbcType = "DATE";
+                    case "LocalDateTime":
+                        jdbcType = "TIMESTAMP";
                         break;
                     default:
                         jdbcType = "String";

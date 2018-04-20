@@ -1,36 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
     <!--oracle数据库连接-->
-    <jdbc type="oracle" database="">
+    <!--<jdbc type="oracle" database="">
         <param name="driverClassName">oracle.jdbc.driver.OracleDriver</param>
         <param name="url">jdbc:oracle:thin:@172.16.30.100:1521:orcl</param>
         <param name="username">eims</param>
         <param name="password">eims</param>
-    </jdbc>
-    <!--mysql数据库连接 type 数据库类型  dataspace 所需要生成的数据库的名字-->
-    <!--<jdbc type="mysql" database="anhua">
-        <param name="driverClassName">com.mysql.jdbc.Driver</param>
-        <param name="url">jdbc:mysql://39.108.57.126:3306/information_schema</param>
-        <param name="username">root</param>
-        <param name="password">1qaz@WSX3edc$RFV</param>
     </jdbc>-->
+    <!--mysql数据库连接 type 数据库类型  dataspace 所需要生成的数据库的名字-->
+    <!--<jdbc type="mysql" database="yinian">
+        <param name="driverClassName">com.mysql.jdbc.Driver</param>
+        <param name="url">jdbc:mysql://120.76.65.34:3306/information_schema</param>
+        <param name="username">root</param>
+        <param name="password">YiNian1130</param>
+    </jdbc>-->
+    <jdbc type="mysql" database="count">
+        <param name="driverClassName">com.mysql.jdbc.Driver</param>
+        <param name="url">jdbc:mysql://localhost:3306/information_schema</param>
+        <param name="username">root</param>
+        <param name="password">1qaz@WSX</param>
+    </jdbc>
     <table>
-        <mapping tableName="zxxs_jbxx" modelName="Student"/>
-        <mapping tableName="zxxs_knxsqk" modelName="StudentKnxsqk"/>
-        <mapping tableName="zxxs_xsjtxx" modelName="StudentXsjtxx"/>
-        <mapping tableName="zxxs_xjyd" modelName="StudentXjyd"/>
-        <mapping tableName="zxxs_xyzthd" modelName="StudentXyzthd"/>
+        <mapping tableName="count_operation" modelName="Operation"/>
+        <mapping tableName="count_interface" modelName="CountInterface"/>
+        <mapping tableName="count_login_info" modelName="LoginInfo"/>
+        <mapping tableName="count_operation_for_lover" modelName="OperationForLover"/>
     </table>
     <!--生成类的基包-->
     <!--生成的文件路径跟基类包有关-->
     <!--当前生成文件的路径为\generate\org\jypj\dev-->
     <!--<basePackage>com.jsly</basePackage>-->
-    <basePackage>org.jypj.dev</basePackage>
+    <basePackage>com.zynn.count</basePackage>
 
     <!-- 模板配置 模板文件路 生成的包名以及文件名 * 代表className 如 Student-->
-    <ftl path="\\ftl\\model1">
+    <ftl path="\\ftl\\model2_mybatisplus">
         <param name="model" basePackageName="entity">*.java</param>
-        <param name="dao" basePackageName="dao">*Dao.java</param>
+        <param name="dao" basePackageName="dao">*Mapper.java</param>
         <param name="mapper" basePackageName="mapper">*Mapper.ftl</param>
         <param name="service" basePackageName="service">*Service.java</param>
         <param name="serviceImpl" basePackageName="service.impl">*ServiceImpl.java</param>
