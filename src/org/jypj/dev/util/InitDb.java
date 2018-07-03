@@ -3,12 +3,14 @@
  */
 package org.jypj.dev.util;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
 import org.dom4j.DocumentException;
 import org.jypj.dev.generate.Attr;
 import org.jypj.dev.generate.Config;
@@ -44,7 +46,7 @@ public class InitDb {
      * @throws DocumentException
      */
     public static void main(String[] args) throws DocumentException {
-        String path = System.getProperty("user.dir") + "\\GenerateConfig.xml";
+        String path = System.getProperty("user.dir") + File.separator + "GenerateConfig.xml";
         final Config config = ConfigUtil.getConfig(path);
         List<Entity> entitys = InitDb.getInstence(ConfigUtil.getConfig(path), tableName -> {
             // 类名
@@ -55,7 +57,7 @@ public class InitDb {
             return className;
         }).initTables();
 
-        System.out.println(entitys);
+        System.out.println(new Gson().toJson(entitys));
     }
 
     /**
@@ -96,7 +98,9 @@ public class InitDb {
         } else if ("mysql".equals(config.getJdbcType())) {
             sql.append("SELECT table_name,table_comment FROM TABLES WHERE 1=1");
             sql.append(" and table_schema = '" + config.getDataBaseName() + "'");
-            sql.append(" and table_name IN(" + config.getTable().getTableNames().toLowerCase() + ")");
+            if (StringUtil.isNotEmpty(config.getTable().getTableNames())) {
+                sql.append(" and table_name IN(" + config.getTable().getTableNames().toLowerCase() + ")");
+            }
         } else {
             throw new RuntimeException("数据库类型错误");
 
@@ -132,7 +136,7 @@ public class InitDb {
     private List<DbVo> initDbVo() {
         StringBuffer sb = new StringBuffer();
         if ("oracle".equals(config.getJdbcType())) {
-            sb.append("select tb.table_name,tb.column_name,tb.data_type,cc.comments,(case when cu.column_name = tb.COLUMN_NAME then 'PRI' ELSE '' END) as column_key");
+            sb.append("select tb.table_name,tb.column_name,tb.data_type,cc.comments,(case when cu.column_name = tb.COLUMN_NAME then 'PRI' ELSE '' END) as column_key,tb.data_length,tb.nullable as is_null ");
             sb.append(" from user_tab_columns tb");
             sb.append(" left join user_col_comments cc on tb.TABLE_NAME = cc.table_name and tb.column_name = cc.column_name");
             sb.append(" left join user_cons_columns cu on cu.table_name = tb.TABLE_NAME");
@@ -143,7 +147,7 @@ public class InitDb {
             }
             sb.append(" order by tb.COLUMN_ID");
         } else if ("mysql".equals(config.getJdbcType())) {
-            sb.append("SELECT table_name,column_name,data_type,column_comment,column_key FROM COLUMNS WHERE 1=1");
+            sb.append("SELECT table_name,column_name,data_type,column_comment,column_key,character_maximum_length,is_nullable FROM COLUMNS WHERE 1=1");
             if (StringUtil.isNotEmpty(config.getTable().getTableNames())) {
                 sb.append(" and table_schema = '" + config.getDataBaseName() + "'");
                 sb.append(" and table_name in (" + config.getTable().getTableNames().toLowerCase() + ")");
@@ -165,6 +169,8 @@ public class InitDb {
                 db.setDataType(rs.getString(3));
                 db.setComments(rs.getString(4));
                 db.setIsPrimaryKey("PRI".equalsIgnoreCase(rs.getString(5)) ? "1" : "0");
+                db.setDataLength(rs.getString(6));
+                db.setIsNull(rs.getString(7));
                 dbs.add(db);
             }
             rs.close();
@@ -216,6 +222,9 @@ public class InitDb {
         for (DbVo db : dbs) {
             if (tableName.equals(db.getTableName())) {
                 Attr attr = new Attr();
+                attr.setDbFieldType(db.getDataType());
+                attr.setDbFieldLength(db.getDataLength());
+                attr.setIsNull(db.getIsNull());
                 String type = "";
                 //根据数据库类型得到java类型
                 switch (db.getDataType().toUpperCase()) {

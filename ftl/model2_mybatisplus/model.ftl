@@ -1,7 +1,7 @@
 package ${model.packageName};
 
  <#list attrs as a>
-   <#if a.type=="Date">
+   <#if a.type=="LocalDateTime">
 import java.time.LocalDateTime;
    	<#break>
    </#if>
@@ -13,6 +13,7 @@ import java.math.BigDecimal;
    </#if>
 </#list>
 import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Data;
 
@@ -23,7 +24,7 @@ import lombok.Data;
 **/
 @Data
 @TableName("${tableName}")
-public class ${model.clazzName} implements java.io.Serializable{
+public class ${model.clazzName} extends BaseEntity{
 
 	private static final long serialVersionUID = 1L;
 

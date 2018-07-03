@@ -5,6 +5,11 @@ package org.jypj.dev.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.jypj.dev.generate.Entity;
 
@@ -21,10 +26,28 @@ public class GenerateUtil {
 
 
     /**
+     * 生成数据库文档
+     */
+    public static void generateDoc(List<Entity> entitys) throws Exception {
+        Map<String, List<Entity>> entityMap = new HashMap<>();
+        Configuration cfg = new Configuration();
+        //创建配置对象
+        cfg.setDirectoryForTemplateLoading(new File(System.getProperty("user.dir") + File.separator + "ftl" + File.separator + "model3"));
+        //得到模板对象
+        Template template = cfg.getTemplate("database_doc.ftl", "utf-8");
+        String newPath = System.getProperty("user.dir") + File.separator + "generate";
+        //判断生成路径是否存在  不存在就创建
+        PathUtil.Path_Judge_Exist(newPath);
+        entityMap.put("entitys", entitys);
+        PathUtil.printFileByObject(entityMap, template, newPath, "database" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HHmmss")) + ".doc");
+
+    }
+
+    /**
      * 根据Entity自动生成model
      *
-     * @param entity         数据库对象
-     * @param type           生成什么文件  1 model 2 dao 3 daoImpl 4 service 5 serviceImpl 6 controller
+     * @param entity 数据库对象
+     * @param type   生成什么文件  1 model 2 dao 3 daoImpl 4 service 5 serviceImpl 6 controller
      * @throws IOException
      * @throws TemplateException
      */

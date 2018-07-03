@@ -92,7 +92,7 @@ public class ConfigUtil {
         String basePackage = basePackages.node(0).getText().trim();
         cf.setBasePackage(basePackage);
 
-        String basePath = "\\\\generate\\\\" + basePackage.replace(".", "\\\\") + "\\\\";
+        String basePath = "//generate//" + basePackage.replace(".", "//") + "//";
         cf.setBasePath(basePath);
 
         Element ftl = root.element("ftl");
@@ -164,7 +164,7 @@ public class ConfigUtil {
         model.setFtlName(modelName + ".ftl");
         model.setBasePackageName(basePackageName);
         model.setFileName(fileName);
-        model.setFilePath(basePath + basePackageName.replace(".", "\\\\"));
+        model.setFilePath(basePath + basePackageName.replace(".", "//"));
         model.setPackageName(basePackage + "." + basePackageName);
     }
 }
